@@ -14,61 +14,96 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
+
 namespace JuegodeColores
 {
     public partial class MainWindow : Window
     {
+        private DispatcherTimer timer = new DispatcherTimer();
+        private Button[] allButtons;
         private Button differentButton;
         private Random random = new Random();
-        private DispatcherTimer timer;
-        private TimeSpan timeAllowed = TimeSpan.FromSeconds(3); // Tiempo permitido inicialmente
+        private const string DIFFERENT_BUTTON_COLOR = "Chocolate";
+        private const string COMMON_BUTTON_COLOR = "#6633FF";
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeGame();
-        }
 
-        private void InitializeGame()
-        {
-            // Asignar los botones diferentes y sus eventos de clic
-            AssignDifferentButton();
+            // Inicializa todos los botones en un arreglo para fácil acceso
+            allButtons = new Button[] { Button1, Button2, Button3, Button4, Button5, Button6 };
 
-            // Iniciar el temporizador
-            timer = new DispatcherTimer();
-            timer.Interval = timeAllowed;
+            // Configura el temporizador
+            timer.Interval = TimeSpan.FromSeconds(5); // Cambiado a 5 segundos para este ejemplo
             timer.Tick += Timer_Tick;
-            timer.Start();
+
+            // Asocia el evento MouseEnter a todos los botones
+            foreach (Button button in allButtons)
+            {
+                button.MouseEnter += Button_MouseEnter;
+                button.Click += Button_Click; // Asegúrate de que el evento Click también esté conectado
+            }
+
+            // Establece el botón diferente inicial
+            SetDifferentButton();
         }
 
-        private void AssignDifferentButton()
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
         {
-            // Obtener un índice aleatorio para el botón diferente
-            int index = random.Next(0, grid.Children.Count - 1);
+            // Inicia el temporizador solo si el ratón está sobre el botón diferente
+            if (sender == differentButton)
+            {
+                timer.Start();
+            }
+        }
 
-            // Asignar el botón diferente y cambiar su color
-            differentButton = (Button)grid.Children[index];
-            differentButton.Click += DifferentButton_Click;
-            differentButton.Background = Brushes.Red;
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Stop(); // Detiene el temporizador cuando se hace clic en cualquier botón
+
+            Button clickedButton = sender as Button;
+            if (clickedButton == differentButton)
+            {
+                MessageBox.Show("¡¡¡Ganador!!!", "Mensaje");
+                MoveDifferentButton();
+            }
+            else
+            {
+                MessageBox.Show("Intenta de nuevo", "Mensaje");
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Cambiar el color y mostrar el mensaje de "Lento" si el temporizador llega a cero
-            timer.Stop();
-            differentButton.Background = Brushes.Green;
             MessageBox.Show("¡¡¡Lento!!!", "Mensaje");
+            MoveDifferentButton();
+            timer.Stop(); // Detiene el temporizador después de mostrar el mensaje
         }
 
-        private void DifferentButton_Click(object sender, RoutedEventArgs e)
+        private void SetDifferentButton()
         {
-            // Detener el temporizador y mostrar el mensaje de "Ganador"
-            timer.Stop();
-            MessageBox.Show("¡¡¡Ganador!!!", "Mensaje");
+            // Elige el botón diferente al inicio
+            differentButton = allButtons[random.Next(allButtons.Length)];
+            UpdateButtonColors();
+        }
 
-            // Reiniciar el juego
-            InitializeGame();
+        private void MoveDifferentButton()
+        {
+            // Cambia el botón diferente de forma aleatoria
+            differentButton = allButtons[random.Next(allButtons.Length)];
+            UpdateButtonColors();
+        }
+
+        private void UpdateButtonColors()
+        {
+            foreach (var button in allButtons)
+            {
+                button.Background = (SolidColorBrush)(new BrushConverter().ConvertFromString(COMMON_BUTTON_COLOR));
+            }
+
+            differentButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFromString(DIFFERENT_BUTTON_COLOR));
         }
     }
 }
+
 

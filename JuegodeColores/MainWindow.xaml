@@ -6,12 +6,9 @@
         xmlns:local="clr-namespace:JuegodeColores"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Name="grid" RenderTransformOrigin="0.624,0.419" Margin="20">
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF9999" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+
+    <Grid Background="#FF9999">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -24,19 +21,18 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!-- Botones -->
-        <Button x:Name="DifferentButton" Width="50" Height="50" Grid.Column="1" Grid.Row="0" Background="Chocolate"/>
-        <Button Width="50" Height="50" Grid.Column="3" Grid.Row="2" Background="#6633FF" Click="Button_Click"/>
-        <Button Width="50" Height="50" Grid.Column="0" Grid.Row="1" Background="#6633FF" Click="Button_Click"/>
-        <Button Width="50" Height="50" Grid.Column="1" Grid.Row="2" Background="#6633FF" Click="Button_Click"/>
-        <Button Width="50" Height="50" Grid.Column="3" Grid.Row="0" Background="#6633FF" Click="Button_Click"/>
-        <Button Width="50" Height="50" Grid.Column="4" Grid.Row="1" Background="#6633FF" Click="Button_Click"/>
+
+        <!-- Botón 1 (Diferente) -->
+        <Button x:Name="Button1" Width="50" Height="50" Grid.Column="1" Grid.Row="0" Background="Chocolate" Click="Button_Click"/>
+        <!-- Botón 2 -->
+        <Button x:Name="Button2" Width="50" Height="50" Grid.Column="3" Grid.Row="2" Background="#6633FF" Click="Button_Click"/>
+        <!-- Botón 3 -->
+        <Button x:Name="Button3" Width="50" Height="50" Grid.Column="0" Grid.Row="1" Background="#6633FF" Click="Button_Click"/>
+        <!-- Botón 4 -->
+        <Button x:Name="Button4" Width="50" Height="50" Grid.Column="1" Grid.Row="2" Background="#6633FF" Click="Button_Click"/>
+        <!-- Botón 5 -->
+        <Button x:Name="Button5" Width="50" Height="50" Grid.Column="3" Grid.Row="0" Background="#6633FF" Click="Button_Click"/>
+        <!-- Botón 6 -->
+        <Button x:Name="Button6" Width="50" Height="50" Grid.Column="4" Grid.Row="1" Background="#6633FF" Click="Button_Click"/>
     </Grid>
-    <Menu DockPanel.Dock="Top">
-        <MenuItem Header="Dificultad">
-            <MenuItem Header="Fácil" Click="MenuItem_Facil_Click"/>
-            <MenuItem Header="Moderado" Click="MenuItem_Moderado_Click"/>
-            <MenuItem Header="Difícil" Click="MenuItem_Dificil_Click"/>
-        </MenuItem>
-    </Menu>
 </Window>
